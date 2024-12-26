@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            padding: 8px;
+            width: 100%;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .add-item-btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .add-item-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Formulario de Factura</h1>
+
+    <form action="factura.php" method="POST">
+
+        <!-- Datos del Cliente -->
+        <div class="form-group">
+            <label for="cliente_nrodoc">Número de Documento del Cliente:</label>
+            <input type="text" id="cliente_nrodoc" name="cliente_nrodoc" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cliente_razon_social">Razón Social del Cliente:</label>
+            <input type="text" id="cliente_razon_social" name="cliente_razon_social" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cliente_direccion">Dirección del Cliente:</label>
+            <input type="text" id="cliente_direccion" name="cliente_direccion" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cliente_pais">País del Cliente:</label>
+            <input type="text" id="cliente_pais" name="cliente_pais" required>
+        </div>
+
+        <!-- Tabla para productos -->
+        <table id="productos-table">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Importe Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="descripcion_1" required></td>
+                    <td><input type="number" name="cantidad_1" required></td>
+                    <td><input type="number" name="precio_unitario_1" step="0.01" required></td>
+                    <td><input type="number" name="importe_total_1" step="0.01" required></td>
+                    <td><button type="button" class="remove-item-btn">Eliminar</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Botón para agregar más productos -->
+        <button type="button" class="add-item-btn" onclick="addItem()">Agregar Ítem</button>
+
+        <!-- Botón para enviar el formulario -->
+        <button type="submit" class="submit-btn">Enviar Factura</button>
+
+    </form>
+
+    <script>
+        let itemCount = 1; // Contador para los ítems
+
+        // Función para agregar un nuevo producto a la tabla
+        function addItem() {
+            itemCount++;
+            const tableBody = document.querySelector('#productos-table tbody');
+            const newRow = document.createElement('tr');
+
+            newRow.innerHTML = `
+            <td><input type="text" name="descripcion_${itemCount}" required></td>
+            <td><input type="number" name="cantidad_${itemCount}" required></td>
+            <td><input type="number" name="precio_unitario_${itemCount}" step="0.01" required></td>
+            <td><input type="number" name="importe_total_${itemCount}" step="0.01" required></td>
+            <td><button type="button" class="remove-item-btn" onclick="removeItem(this)">Eliminar</button></td>
+        `;
+
+            tableBody.appendChild(newRow);
+        }
+
+        // Función para eliminar un producto de la tabla
+        function removeItem(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+    </script>
+
+</body>
+
+</html>
